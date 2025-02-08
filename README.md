@@ -6,5 +6,6 @@ Rei Hernandez
 Anthony Richards
 acrichards@ucdavis.edu
 
-used this video to help creat the makefile
+used this video to help create the makefile
 https://www.youtube.com/watch?v=Lp1ifh9TuFI
+
