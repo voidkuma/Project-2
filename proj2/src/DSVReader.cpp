@@ -1,10 +1,11 @@
 // Created Wednesday Feb. 5th 2025
 //
-#include <iostream>
 #include "DSVReader.h"
+#include <iostream>
 
 struct CDSVReader::SImplementation {
     std::shared_ptr<CDataSource> Source;
+    char Delimiter; //Initalizing Delimiter char variable
 
 };
 
