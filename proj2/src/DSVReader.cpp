@@ -6,12 +6,17 @@
 struct CDSVReader::SImplementation {
     std::shared_ptr<CDataSource> Source;
     char Delimiter; //Initalizing Delimiter char variable
-
+    std::string Leftovers; //Leftovers = text we didn't process yet
+    SImplementation(std::shared_ptr<CDataSource> src, char delimiter){
+        Source = src; //Initalizing src as Source
+        Delimiter = delimiter; //Initalizing Delimiter as delimiter 
+    }
 };
 
 // Constructor for DSV reader, src specifies the data source and delimiter
 // specifies the delimiting character
 CDSVReader::CDSVReader(std::shared_ptr< CDataSource > src, char delimiter){
+    DImplementation = std::make_unique<SImplementation>(src, delimiter);
     std::cout << "CDSVReader constructor" << std::endl;
 }
 
