@@ -200,14 +200,38 @@ std::string Replace(const std::string &str, const std::string &old, const std::s
 // splt parameter is empty string, then split on white space
 std::vector< std::string > Split(const std::string &str, const std::string &splt) noexcept{
 
-    if (str.empty()){ // if the string is empty then there's no vector to really work on...
-        return {};
-    }
-    if (splt.empty()){// if the splt is empty string, then we split on whitespace.
+    std::vector<std::string> result;
 
+    if (str.empty()) {
+        return result;
     }
-    return {};
 
+    // If the split string is empty, use whitespace to split
+    if (splt.empty()) {
+        size_t start = 0, end = 0;
+        while ((end = str.find_first_of(" \t\n\r\f\v", start)) != std::string::npos) {
+            if (end > start) {
+                result.push_back(str.substr(start, end - start));
+            }
+            start = end + 1;
+        }
+        if (start < str.size()) {
+            result.push_back(str.substr(start));
+        }
+    } else {
+        size_t start = 0, end = 0;
+        while ((end = str.find(splt, start)) != std::string::npos) {
+            if (end > start) {
+                result.push_back(str.substr(start, end - start));
+            }
+            start = end + splt.size();
+        }
+        if (start < str.size()) {
+            result.push_back(str.substr(start));
+        }
+    }
+
+    return result;
 }
 
 // Assignment = Joins a vector of strings into a single string
@@ -259,7 +283,41 @@ std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
 // Assignment = Calculates the Levenshtein distance (edit distance) between the two strings
 int EditDistance(const std::string &left, const std::string &right, bool ignorecase) noexcept{
     // Replace code here
-    return 0;
+    size_t len_left = left.size();
+    size_t len_right = right.size();
+
+    // If we want to ignore case, convert both strings to lowercase
+    std::string l = left, r = right;
+    if (ignorecase) {
+        l = Lower(left);
+        r = Lower(right);
+    }
+
+    // Create a 2D DP table to store distances
+    std::vector<std::vector<int>> dp(len_left + 1, std::vector<int>(len_right + 1));
+
+    // Initialize the base case
+    for (size_t i = 0; i <= len_left; ++i) {
+        dp[i][0] = i;  // Deleting all characters in 'left'
+    }
+    for (size_t j = 0; j <= len_right; ++j) {
+        dp[0][j] = j;  // Inserting all characters from 'right'
+    }
+
+    // Fill the DP table
+    for (size_t i = 1; i <= len_left; ++i) {
+        for (size_t j = 1; j <= len_right; ++j) {
+            int cost = (l[i - 1] == r[j - 1]) ? 0 : 1;  // If characters are equal, no cost
+
+            dp[i][j] = std::min({
+                dp[i - 1][j] + 1,  // Deletion
+                dp[i][j - 1] + 1,  // Insertion
+                dp[i - 1][j - 1] + cost  // Substitution
+            });
+        }
+    }
+
+    return dp[len_left][len_right];  // Return the edit distance
 }
 
 };
