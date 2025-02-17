@@ -25,7 +25,6 @@ CXMLReader::CXMLReader(std::shared_ptr<CDataSource> src) : DImplementation(std::
 CXMLReader::~CXMLReader()
 {
     std::cout << "CXMLReader destructor" << std::endl;
-    //
 }
 
 // Check if end of data source is reached
@@ -103,7 +102,7 @@ bool CXMLReader::ReadEntity(SXMLEntity &entity, bool skipcdata)
                     while ((pos = attributes.find('=')) != std::string::npos) 
                     {
                         //get the attribute name
-                        std::string attrName = attributes.substr(0, pos);
+                        std::string attributeName = attributes.substr(0, pos);
                         attributes = attributes.substr(pos + 1);
 
                         //find the first backslash
@@ -118,7 +117,7 @@ bool CXMLReader::ReadEntity(SXMLEntity &entity, bool skipcdata)
                             {
                                 //get the value between the quotes
                                 std::string attrValue = attributes.substr(0, quotePos);  
-                                entity.DAttributes.emplace_back(attrName, attrValue);
+                                entity.DAttributes.emplace_back(attributeName, attrValue);
                                 //go immediately after the second quote
                                 attributes = attributes.substr(quotePos + 1);  
                             }
