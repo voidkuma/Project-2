@@ -199,16 +199,15 @@ std::string Replace(const std::string &str, const std::string &old, const std::s
 
 // Assignment = Splits the string up into a vector of strings based on splt parameter, if
 // splt parameter is empty string, then split on white space
-std::vector< std::string > Split(const std::string &str, const std::string &splt) noexcept{
-
-    if (str.empty()){ // if the string is empty then there's no vector to really work on...
-        return {};
+std::vector<std::string> Split(const std::string &str, const std::string &splt) noexcept{
+    std::vector<std::string> splitsub;
+    size_t start = 0, end;
+    while ((end = str.find(splt, start)) != std::string::npos) { // find where we want to split the string
+        splitsub.push_back(str.substr(start, end - start)); //create gap in the string 
+        start = end + splt.length(); //move to the next part of the string
     }
-    if (splt.empty()){// if the splt is empty string, then we split on whitespace.
-
-    }
-    return {};
-
+    splitsub.push_back(str.substr(start)); // add the new string pack on 
+    return splitsub;
 }
 
 // Assignment = Joins a vector of strings into a single string
@@ -232,31 +231,17 @@ std::string Join(const std::string &str, const std::vector< std::string > &vect)
 // str = string
 // tabsize = the size of the tab??
 std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
-
-    if (str.empty()) { // Checking if the string is empty
-        return str; // if empty it returns the string back
-    }
-    std::string result = ""; // result = what will be modified and turned innnn
-    int index = 0; // index = where in the string we'll be
-
-    for (int i = 0; (i < str.size()); i++){ // Iterates through each character in the string
-    
-        if (str[i] == '\t') { // if the index we're on is a tab...
-            int spaces = tabsize - (index % tabsize); // spaces = spaces we gotta add 
-            result.append(spaces, ' '); // apends the spaces we need to add
-            index += spaces; // Update column position
+    std::string result;
+    for (char c : str) {
+        if (c == '\t') {
+            result.append(tabsize - result.size() % tabsize, ' '); //find tabs in the string and replace them with tabsize spaces
         } else {
-            if (str[i] == '\n') { 
-                index = 0; // Reset column if newline is found
-                result += str[i]; // Append normal characters as they are
-            } else { 
-                index += 1; 
-                result += str[i]; // Append normal characters as they are
-            }
+            result.push_back(c); //move the current character to the next space
         }
     }
     return result;
 }
+
 // Assignment = Calculates the Levenshtein distance (edit distance) between the two strings
 int EditDistance(const std::string &left, const std::string &right, bool ignorecase) noexcept{
     size_t len1 = left.size(), len2 = right.size();
