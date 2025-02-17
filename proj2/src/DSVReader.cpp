@@ -87,7 +87,7 @@ for (size_t i = 0; i < line.size(); ++i) {
             cell += '"';  // Store a single quote
             ++i; // Skip the second quote
         } else {
-            insideQuotes = !insideQuotes;  // Toggle insideQuotes flag
+            insideQuotes = !insideQuotes;  
         }
     } else if (ch == DImplementation->Delimiter && !insideQuotes) {
         row.push_back(cell);

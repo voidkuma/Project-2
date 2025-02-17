@@ -1,3 +1,5 @@
+// Came in mostly done when downloaded from zip
+//
 #include "StringDataSink.h"
 
 const std::string &CStringDataSink::String() const{
