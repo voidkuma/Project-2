@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8 )
+cmake_minimum_required(VERSION 3.8)
 
 set(This Example)
 
@@ -20,6 +20,17 @@ set(Sources
     StringUtilsTest.cpp
 )
 
-add_library(${This} STATIC ${Sources} ${Headers})
+add_library(${This} STATIC ${Sources})
 
-add_subdirectory((test))
+target_include_directories(${This} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable(${This}_test ${Sources})
+
+target_link_libraries(${This}_test
+    PRIVATE ${This}
+    PRIVATE gtest gtest_main
+)
+
+add_test(NAME ExampleTest COMMAND ${This}_test)
+
+add_subdirectory(test)
