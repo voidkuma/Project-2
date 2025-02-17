@@ -1,25 +1,31 @@
-cmake_minimum_required(VERSION 3.8 )
+# Compiler and flags
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -g
 
-set(This Example)
+# Directories
+OBJ_DIR = obj
+BIN_DIR = bin
 
-project(${This} C CXX)
+# Source and Object Files
+SRC = $(wildcard *.cpp)
+OBJ = $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+# Output Executable
+EXEC = $(BIN_DIR)/main
 
-enable_testing()
+# Targets
+all: $(EXEC)
 
-add_subdirectory(googletest)
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-set(Headers
-    StringUtils.h
-)
-set(Sources
-    StringUtils.cpp
-    StringUtilsTest.cpp
-)
+$(EXEC): $(OBJ)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-add_library(${This} STATIC ${Sources} ${Headers})
+# Clean up
+clean:
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
-add_subdirectory((test))
+.PHONY: all clean
