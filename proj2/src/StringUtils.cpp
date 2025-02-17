@@ -1,6 +1,7 @@
 // Rei Hernandez
+// Anthony Richards
 // ECS 34 Winter 2025
-//
+
 #include "StringUtils.h"
 #include <cstring> 
 #include <cctype>
@@ -258,8 +259,26 @@ std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
 }
 // Assignment = Calculates the Levenshtein distance (edit distance) between the two strings
 int EditDistance(const std::string &left, const std::string &right, bool ignorecase) noexcept{
-    // Replace code here
-    return 0;
+    size_t len1 = left.size(), len2 = right.size();
+    std::vector<std::vector<int>> dp(len1 + 1, std::vector<int>(len2 + 1)); // create a 2D vector for the distances
+
+    for (size_t i = 0; i <= len1; ++i) {
+        for (size_t j = 0; j <= len2; ++j) {
+            if (i == 0) {
+                dp[i][j] = j; // find the cost of adding the j characters
+            } else if (j == 0) {
+                dp[i][j] = i; //find the cost of removing the i characters
+            } else {
+                int cost = (ignorecase ? (tolower(left[i - 1]) != tolower(right[j - 1])) 
+                                       : (left[i - 1] != right[j - 1])) ? 1 : 0;
+                
+                dp[i][j] = std::min(std::min(dp[i - 1][j] + 1,   // delete the current cost
+                                             dp[i][j - 1] + 1),  // insert the new cost
+                                             dp[i - 1][j - 1] + cost); // substitude the distance plus the cost for the strings
+            }
+        }
+    }
+    return dp[len1][len2];
 }
 
 };
