@@ -26,7 +26,7 @@ CXMLWriter::CXMLWriter(std::shared_ptr<CDataSink> sink): DImplementation(std::ma
 CXMLWriter::~CXMLWriter() = default;
 
 bool CXMLWriter::Flush() {
-    //write leftovers to the sink
+    //write leftovers string to the sink
     return DImplementation->LeftoversToSink();  
 }
 
