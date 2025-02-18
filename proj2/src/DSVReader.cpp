@@ -51,7 +51,7 @@ bool CDSVReader::ReadRow(std::vector<std::string> &row){
     // If there's no more leftovers,
     // we make more by processing more data from the source
     if (DImplementation->Leftovers.empty()) { 
-        std::vector<char> buffer(1024); // Reading 1024 characters
+        std::vector<char> buffer(1024); // Reading 1024 characters at a time
         if (!DImplementation->Source->Read(buffer, buffer.size())) {
             if (DImplementation->Leftovers.empty()) { // If no data is read...
                 return false; // no more data

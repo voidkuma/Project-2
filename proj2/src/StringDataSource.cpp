@@ -1,4 +1,4 @@
-// Came in mostly done when downloaded from zip
+// Came in done when downloaded from zip
 //
 #include "StringDataSource.h"
 

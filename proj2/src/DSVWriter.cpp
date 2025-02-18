@@ -1,6 +1,6 @@
 // Created Wednesday Feb. 5th 2025 
 // Rei Hernandez
-// Collaborated mostly 
+// Anthony Richards
 //
 #include <iostream>
 #include "DSVWriter.h"
