@@ -34,7 +34,7 @@ CDSVWriter::~CDSVWriter(){
 
 // Returns true if the row is successfully written, one string per column
 // should be put in the row vector
-bool WriteRow(const std::vector<std::string> &row){
+bool CDSVWriter::WriteRow(const std::vector<std::string> &row) {
     if (!DImplementation || !DImplementation->Sink) {
         return false;  // If no valid data sink, return false
     }
