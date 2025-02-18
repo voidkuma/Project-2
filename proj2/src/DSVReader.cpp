@@ -75,30 +75,30 @@ bool CDSVReader::ReadRow(std::vector<std::string> &row){
     }
 }
 
-// Initalizing stringstream so we can line parse 
-std::stringstream ss(line);
-std::string cell; // Will hold values from the current row we in, (the individual columns)
-bool insideQuotes = false;
+    // Initalizing stringstream so we can line parse 
+    std::stringstream ss(line);
+    std::string cell; // Will hold values from the current row we in, (the individual columns)
+    bool insideQuotes = false;
 
-// Loops through each character in the current line we in
-for (size_t i = 0; i < line.size(); ++i) {
-    char ch = line[i];
+    // Loops through each character in the current line we in
+    for (size_t i = 0; i < line.size(); ++i) {
+        char ch = line[i];
 
-    if (ch == '"') { //Checks for embedded quotes
-        if (insideQuotes && (i + 1 < line.size()) && line[i + 1] == '"') {
-            cell += '"';  // Store a single quote
-            ++i; // Skip the second quote
+        if (ch == '"') { //Checks for embedded quotes
+            if (insideQuotes && (i + 1 < line.size()) && line[i + 1] == '"') {
+                cell += '"';  // Store a single quote
+                ++i; // Skip the second quote
+            } else {
+                insideQuotes = !insideQuotes;  
+            }
+        } else if (ch == DImplementation->Delimiter && !insideQuotes) {
+            row.push_back(cell);
+            cell.clear();
         } else {
-            insideQuotes = !insideQuotes;  
+            cell += ch;
         }
-    } else if (ch == DImplementation->Delimiter && !insideQuotes) {
-        row.push_back(cell);
-        cell.clear();
-    } else {
-        cell += ch;
     }
-}
-row.push_back(cell);
+    row.push_back(cell);
 
-return true;
+    return true;
 }

@@ -35,6 +35,7 @@ CDSVWriter::~CDSVWriter(){
 // Returns true if the row is successfully written, one string per column
 // should be put in the row vector
 bool CDSVWriter::WriteRow(const std::vector<std::string> &row) {
+    // This just checks if the sink and DImplementation exists
     if (!DImplementation || !DImplementation->Sink) {
         return false;  // If no valid data sink, return false
     }
@@ -44,7 +45,7 @@ bool CDSVWriter::WriteRow(const std::vector<std::string> &row) {
         std::string cell = row[i];
         bool needsQuotes = DImplementation->QuoteAll;
 
-        // Check if the cell needs to be quoted
+        // Checking if the cell needs to be quoted
         if (!needsQuotes) {
             if (cell.find(DImplementation->Delimiter) != std::string::npos ||
                 cell.find('"') != std::string::npos ||
@@ -52,13 +53,11 @@ bool CDSVWriter::WriteRow(const std::vector<std::string> &row) {
                 needsQuotes = true;
             }
         }
-
-        // If quotes are needed, properly format the cell
         if (needsQuotes) {
             std::string quotedCell = "\"";
             for (char ch : cell) {
                 if (ch == '"') {
-                    quotedCell += "\"\"";  // Escape double quotes
+                    quotedCell += "\"\"";  
                 } else {
                     quotedCell += ch;
                 }
@@ -66,17 +65,14 @@ bool CDSVWriter::WriteRow(const std::vector<std::string> &row) {
             quotedCell += "\"";
             cell = quotedCell;
         }
-
-        // Append to output
         output += cell;
         if (i < row.size() - 1) {
-            output += DImplementation->Delimiter;  // Add delimiter between columns
+            output += DImplementation->Delimiter;  // Add delimiter between the columns
         }
     }
 
-    output += '\n';  // End row with newline
+    output += '\n';  // End the row with newline
 
-    // Convert output string to vector<char> and write to sink
-    std::vector<char> buffer(output.begin(), output.end());
-    return DImplementation->Sink->Write(buffer);
+    std::vector<char> buffer(output.begin(), output.end()); //Converts string to char vector and gets written to sink
+    return DImplementation->Sink->Write(buffer); // Should be a boolean valueee
 }
