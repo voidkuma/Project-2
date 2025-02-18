@@ -1,9 +1,11 @@
 // Created Wednesday Feb. 5th 2025
+// Rei Hernandez
+// Anthony Richards
 //
-#include "DSVReader.h" //Header file for this .cpp file
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include "DSVReader.h"
 
 // The private structure that holds the data members: Source, Delimeter and LeftOvers
 struct CDSVReader::SImplementation { 
@@ -21,13 +23,13 @@ struct CDSVReader::SImplementation {
 // delimiter specifies the delimiting character
 CDSVReader::CDSVReader(std::shared_ptr< CDataSource > src, char delimiter){
     DImplementation = std::make_unique<SImplementation>(src, delimiter); //Initalizing pointer to manage memory
-    // std::cout << "CDSVReader constructor" << std::endl; //Default constructor print statement
+    std::cout << "CDSVReader constructor" << std::endl; //Default constructor print statement
 }
 
 // Assignment:
 // Destructor for DSV reader
 CDSVReader::~CDSVReader(){
-    // std::cout << "CDSVReader destructor" << std::endl; //Default destructor print statement
+    std::cout << "CDSVReader destructor" << std::endl; //Default destructor print statement
 }
 
 // Returns true if all rows have been read from the DSV
