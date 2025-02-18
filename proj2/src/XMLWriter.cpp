@@ -39,7 +39,7 @@ bool CXMLWriter::WriteEntity(const SXMLEntity &entity) {
         for (const auto &attr : entity.DAttributes) {
             DImplementation->Leftovers += " " + std::get<0>(attr) + "=\"" + std::get<1>(attr) + "\"";
         }
-        
+         
         DImplementation->Leftovers += ">";
     }
     else if (entity.DType == SXMLEntity::EType::EndElement) {
